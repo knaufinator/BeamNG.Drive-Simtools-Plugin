@@ -52,8 +52,8 @@ Public Class GamePlugin
     Private Const _DOF_Support_Sway As Boolean = True
     Private Const _DOF_Support_Surge As Boolean = True
     Private Const _DOF_Support_Extra1 As String = "Traction Loss" 'Blank = False
-    Private Const _DOF_Support_Extra2 As String = "" '"" = Not Used
-    Private Const _DOF_Support_Extra3 As String = "" 'ADD THE FORCE NAME HERE
+    Private Const _DOF_Support_Extra2 As String = "Pitch Acceleration" '"" = Not Used
+    Private Const _DOF_Support_Extra3 As String = "Roll Acceleration" 'ADD THE FORCE NAME HERE
     '/////////////////////////////////////////////////
     '///       GameDash - Dash Board Support       ///
     '/////////////////////////////////////////////////
@@ -151,6 +151,8 @@ Public Class GamePlugin
                 Dim tracLoss As Double = -(.velX * right.X + .velY * right.Y + .velZ * right.Z)
 
                 Extra1_Output = tracLoss
+                Extra2_Output = .pitchAcc
+                Extra3_Output = .rollAcc
 
                 Vibe_4_Output = "Collision L/R," & Sway_Output.ToString
                 Vibe_5_Output = "Collision F/B," & Surge_Output.ToString
