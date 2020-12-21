@@ -62,8 +62,6 @@ local function sendDataPaketV1(dt)
   o.upVecY = upVector.y
   o.upVecZ = upVector.z
   
-
-  
   local rollRate = obj:getRollAngularVelocity()
   local pitchRate = obj:getPitchAngularVelocity()
   local yawRate = obj:getYawAngularVelocity()
@@ -188,7 +186,7 @@ local function initV1()
       float          forwardVecY;
       float          forwardVecZ;
 
-	  
+
     } motionSim_t;
     ]]
     hasDefinedV1Struct = true
