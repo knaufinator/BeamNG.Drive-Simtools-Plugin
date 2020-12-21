@@ -98,3 +98,13 @@ C:\GitHub\BeamNG.Drive-Simtools-Plugin\GamePlugin for GameVibe\GamePlugin\obj\Re
 C:\GitHub\BeamNG.Drive-Simtools-Plugin\GamePlugin for GameVibe\GamePlugin\obj\Release\BeamNG_GamePlugin.dll
 C:\GitHub\BeamNG.Drive-Simtools-Plugin\GamePlugin for GameVibe\GamePlugin\obj\Release\BeamNG_GamePlugin.xml
 C:\GitHub\BeamNG.Drive-Simtools-Plugin\GamePlugin for GameVibe\GamePlugin\obj\Release\BeamNG_GamePlugin.pdb
+C:\Users\knauf\Documents\GitHub\BeamNG.Drive-Simtools-Plugin\GamePlugin for GameVibe\GamePlugin\bin\Release\BeamNG_GamePlugin.dll
+C:\Users\knauf\Documents\GitHub\BeamNG.Drive-Simtools-Plugin\GamePlugin for GameVibe\GamePlugin\bin\Release\BeamNG_GamePlugin.pdb
+C:\Users\knauf\Documents\GitHub\BeamNG.Drive-Simtools-Plugin\GamePlugin for GameVibe\GamePlugin\bin\Release\BeamNG_GamePlugin.xml
+C:\Users\knauf\Documents\GitHub\BeamNG.Drive-Simtools-Plugin\GamePlugin for GameVibe\GamePlugin\bin\Release\Game_PluginAPI.dll
+C:\Users\knauf\Documents\GitHub\BeamNG.Drive-Simtools-Plugin\GamePlugin for GameVibe\GamePlugin\obj\Release\BeamNG_GamePlugin.Resources.resources
+C:\Users\knauf\Documents\GitHub\BeamNG.Drive-Simtools-Plugin\GamePlugin for GameVibe\GamePlugin\obj\Release\GamePlugin.vbproj.GenerateResource.cache
+C:\Users\knauf\Documents\GitHub\BeamNG.Drive-Simtools-Plugin\GamePlugin for GameVibe\GamePlugin\obj\Release\GamePlugin.vbproj.CopyComplete
+C:\Users\knauf\Documents\GitHub\BeamNG.Drive-Simtools-Plugin\GamePlugin for GameVibe\GamePlugin\obj\Release\BeamNG_GamePlugin.dll
+C:\Users\knauf\Documents\GitHub\BeamNG.Drive-Simtools-Plugin\GamePlugin for GameVibe\GamePlugin\obj\Release\BeamNG_GamePlugin.xml
+C:\Users\knauf\Documents\GitHub\BeamNG.Drive-Simtools-Plugin\GamePlugin for GameVibe\GamePlugin\obj\Release\BeamNG_GamePlugin.pdb
