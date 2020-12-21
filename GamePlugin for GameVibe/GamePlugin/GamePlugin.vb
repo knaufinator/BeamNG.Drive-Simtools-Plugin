@@ -151,8 +151,9 @@ Public Class GamePlugin
                 Dim tracLoss As Double = -(.velX * right.X + .velY * right.Y + .velZ * right.Z)
 
                 Extra1_Output = tracLoss
-                Extra2_Output = .pitchAcc
-                Extra3_Output = .rollAcc
+                Extra2_Output = .pitchRate
+                Extra3_Output = .rollRate
+
 
                 Vibe_4_Output = "Collision L/R," & Sway_Output.ToString
                 Vibe_5_Output = "Collision F/B," & Surge_Output.ToString
