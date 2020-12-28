@@ -1,13 +1,13 @@
 ﻿Option Explicit On
 Option Strict On
 
-Imports Game_PluginAPI
-Imports System.Runtime.InteropServices
-Imports System.Net.Sockets
+Imports System.IO
 Imports System.Net
-Imports System.Windows
-Imports System.Windows.Media.Media3D
+Imports System.Net.Sockets
+Imports System.Runtime.InteropServices
 Imports System.Threading
+Imports System.Windows.Media.Media3D
+Imports Game_PluginAPI
 
 Public Class GamePlugin
     Implements IPlugin_Game
@@ -21,7 +21,7 @@ Public Class GamePlugin
     Private Const _GameName As String = "BeamNG" 'GameName (Must Be Unique!) - the displayed Name. (DLL_Name without spaces ==> "LiveforSpeed.dll")
     Private Const _ProcessName As String = "BeamNG.drive,BeamNG.drive.x64" 'Process_Name without the (".exe") for this game
     Private Const _Port As String = "4444"  'Your Sending/Recieving UDP Port for this game
-    Private Const _RequiresPatchingPath As Boolean = False 'do we need the game exe path for patching? (must be true if _RequiresSecondCheck = True)
+    Private Const _RequiresPatchingPath As Boolean = True 'do we need the game exe path for patching? (must be true if _RequiresSecondCheck = True)
     Private Const _RequiresSecondCheck As Boolean = True 'Use when games have the same _ProcessName. (all plugins with the same _ProcessName must be updated)
     Private Const _PluginOptions As String = "" ' Reserved For Future Use - No Change Needed (Leave Blank)
     '////////////////////////////////////////////////
@@ -52,8 +52,10 @@ Public Class GamePlugin
     Private Const _DOF_Support_Sway As Boolean = True
     Private Const _DOF_Support_Surge As Boolean = True
     Private Const _DOF_Support_Extra1 As String = "Traction Loss" 'Blank = False
-    Private Const _DOF_Support_Extra2 As String = "Pitch Acceleration" '"" = Not Used
-    Private Const _DOF_Support_Extra3 As String = "Roll Acceleration" 'ADD THE FORCE NAME HERE
+    Private Const _DOF_Support_Extra2 As String = "Pitch Rate" '"" = Not Used
+    Private Const _DOF_Support_Extra3 As String = "Roll Rate" 'ADD THE FORCE NAME HERE
+
+
     '/////////////////////////////////////////////////
     '///       GameDash - Dash Board Support       ///
     '/////////////////////////////////////////////////
@@ -154,7 +156,6 @@ Public Class GamePlugin
                 Extra2_Output = .pitchRate
                 Extra3_Output = .rollRate
 
-
                 Vibe_4_Output = "Collision L/R," & Sway_Output.ToString
                 Vibe_5_Output = "Collision F/B," & Surge_Output.ToString
                 Vibe_6_Output = "Road Detail," & Heave_Output.ToString
@@ -163,12 +164,31 @@ Public Class GamePlugin
         End Try
     End Sub
 
+
+    'for patching
+    Dim motionSimLuaBackup As String = "motionSimBACKUP.lua"
+    Dim motionSimLuaOriginalName As String = "motionSim.lua"
+    Dim motionSimLuafilePathAddon As String = "lua\vehicle"
+
     'Used by GameManager to Patch a Game.
     Public Function PatchGame(ByVal MyPath As String, ByVal MyIp As String) As Boolean Implements IPlugin_Game.PatchGame
         'Change as Needed
 
         'If game is already patched - Unpatch first to be safe
         UnPatch(MyPath)
+
+
+        'make a backup of the original
+        My.Computer.FileSystem.RenameFile(MyPath + motionSimLuafilePathAddon + "/" + motionSimLuaOriginalName, motionSimLuaBackup)
+
+        'create a copy in place of the original the modified embedded motionSim.lua
+        Dim nAssembly As System.Reflection.Assembly = System.Reflection.Assembly.GetExecutingAssembly()
+        Dim stream As Stream = nAssembly.GetManifestResourceStream(System.Reflection.MethodBase.GetCurrentMethod.DeclaringType, motionSimLuaOriginalName)
+        Dim fileStream = File.Create(MyPath + motionSimLuafilePathAddon + "/" + motionSimLuaOriginalName)
+
+        stream.Seek(0, SeekOrigin.Begin)
+        stream.CopyTo(fileStream)
+        fileStream.Close()
 
         'Patch Game
         MsgBox("BeamNG patched.", MsgBoxStyle.OkOnly, "Patching info")
@@ -183,20 +203,53 @@ Public Class GamePlugin
         MsgBox("Patch Uninstalled!", MsgBoxStyle.OkOnly, "Patching info")
     End Sub
 
+
+
     'Used by GameManager to UnPatch a Game.
     Private Sub UnPatch(MyPath As String)
-        'Restore backup file if found (remove patch)
+
+        Dim path As String = MyPath + motionSimLuafilePathAddon + "\"
+
+        ' MsgBox(MyPath, MsgBoxStyle.OkOnly, "UnPatch mypath")
+        Try
+            'Restore backup file if found (remove patch)
+            'dont leave it in a broken state if backup does not exist...?
+            If My.Computer.FileSystem.FileExists(path + motionSimLuaBackup) Then
+
+                If My.Computer.FileSystem.FileExists(path + motionSimLuaOriginalName) Then
+                    'delete current motionsimlua, to make way for backup version
+                    My.Computer.FileSystem.DeleteFile(path + motionSimLuaOriginalName)
+                End If
+
+                'rename backup version 
+                My.Computer.FileSystem.RenameFile(path + motionSimLuaBackup, motionSimLuaOriginalName)
+
+            End If
+
+        Catch ex As Exception
+            MsgBox(ex.Message, MsgBoxStyle.OkOnly, "UnPatch - Exception")
+        End Try
+
+
     End Sub
 
     'Tells the User where to patch the game 
     Public Sub PatchPathInfo() Implements IPlugin_Game.PatchPathInfo
         'Tell the User where to patch the game 
-        'MsgBox("Please Select the Live for Speed's Installation Directory.", MsgBoxStyle.OkOnly, "Patching info")
+        MsgBox("Please Select the BeamNg.Drive Installation Directory.", MsgBoxStyle.OkOnly, "Patching info")
     End Sub
 
     'Used by GameManager to Validate a Path befors Patching.
     Public Function ValidatePatchPath(MyPath As String) As Boolean Implements IPlugin_Game.ValidatePatchPath
         'insert a simple validation of the patching path - let the user know he got it right
+
+        'check to see if our new motionsim lua was copied correctly.
+        'check a known line number 
+        '
+
+
+
+
         Return True
     End Function
 
